@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<HEAD>
+		<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=320px">
+		<style>
+			html{font-size: 53%; }
+			body{font-size: 2.1rem;}
+			INPUT{font-size: 2.1rem; padding: 1px 2px;}
+			select{font-size: 2.1rem;}
+			td {text-align: center; vertical-align: center;}
+		    .fs1 {font-size: 24px;background-color: white;}
+		    .fs2 {font-size: 14px; line-height: 1.1}
+		    .fs3 {font-size: 22px;background-color: #ffffa0; border: none;}
+			.solid_line {font-size: 22px;  border-top: solid 1px black;  }
+			.solid_line_b {font-size: 22px;  border-bottom: solid 1px black;  }
+			.root {font-size: 18px; font: 100%/150% Times New Roman; }
+
+			/*タブ切り替え全体のスタイル*/
+			.tabs {	background-color: #fff;	}
+			/*タブのスタイル*/
+			.tab_item,.tab_item2{
+				width: calc(33%);
+				height: 21px;
+				background-color: #d9d9d9;
+				line-height: 20px;
+				font-size: 16px;
+				text-align: center;
+				color: #565656;
+				display: block;
+				float: left;
+				text-align: center;
+				font-weight: bold;
+				transition: all 0.2s ease;
+			}
+			.tab_item:hover {opacity: 0.75;}
+			/*ラジオボタンを全て消す*/
+			input[name="tab_item"] {display: none;}
+			input[name="tab_item2"] {display: none;}
+			/*タブ切り替えの中身のスタイル*/
+			.tab_content {display: none;	clear: both;	overflow: hidden;}
+			/*選択されているタブのコンテンツのみを表示*/
+			#labo:checked ~ #fromlabo_content,
+ 			#honsya:checked ~ #fromhonsya_content {
+				display: block;
+			}
+			/*選択されているタブのスタイルを変える*/
+			.tabs input:checked + .tab_item {background-color: #5ab4bd;		color: #fff;}
+			.tabs input:checked + .tab_item2 {background-color: #5ab4bd;	color: #fff;}
+		</style>
+
+		<TITLE>時刻表</TITLE>
+	</HEAD>
+<body>
+	<div class="tabs">
+		<span class="fs1">出発地</span><br>
+
+		<input id="labo" type="radio" name="tab_item" checked>
+		<label class="tab_item" for="labo">研究所前</label>
+
+		<input id="honsya" type="radio" name="tab_item">
+		<label class="tab_item" for="honsya">本社発ｼｬﾄﾙ</label>
+
+		<br><span class="fs1">バスの行き先</span><br>
+
+		<div class="tab_content" id="fromlabo_content">
+
+			<input id="2honsya" type="radio" name="tab_item2">
+			<label class="tab_item2" for="2honsya">本社</label>
+
+			<input id="2ajikawa" type="radio" name="tab_item2">
+			<label class="tab_item2" for="2ajikawa">安治川口</label>
+
+			<input id="2nisikujyo" type="radio" name="tab_item2">
+			<label class="tab_item2" for="2nisikujyo">西九条</label>
+
+			<FORM name="myForm"><br>
+				<span class="fs1">目的地</span><br>
+				<INPUT type="text" style="width:200px" id="myDist" value="">
+				<br><hr>
+				<span class="fs2">※時刻をタップするとそのバスから接続する電車の乗換案内が開きます</span><br>
+				<span class="fs2">※リンク先の乗換案内は目安であり、到着時刻を保証するものではありません</span><br>
+			</FORM>
+		</div>
+
+		<div class="tab_content" id="fromhonsya_content">
+			<input id="2labo" type="radio" name="tab_item2">
+			<label class="tab_item2" for="2labo">研究所</label>
+			<br><hr>
+		</div>
+
+		<span class="fs2">※試作中</span><br>
+		<table border="1" id='data-table'>
+			<tr></tr>
+		</table>
+
+	</div><br>
+</body>
+<script>
+	var mydistination;
+	//ラジオボタンにイベントリスナーを設定
+    window.addEventListener( "DOMContentLoaded" , ()=> {
+            document.getElementsByName("tab_item").forEach(
+                r => r.addEventListener("change" , myC1)
+            );
+            document.getElementsByName("tab_item2").forEach(
+                r => r.addEventListener("change" , myC2)
+            );
+    });
+	//入力ボックスにイベントリスナーを設定
+	const minput = document.getElementById( "myDist" ) ;
+	minput.addEventListener("input", myC3);
+
+	//リンク作成
+	function myLinkmake(myfrom, myto, mylag, hh, mm){
+        var dt = new Date();
+		dt.setHours(hh);
+		dt.setMinutes(mm + mylag);
+		var mm = dt.getMinutes();
+		var m1 = Math.floor(mm/10);
+		var m2 = mm - m1 * 10;
+		var h = dt.getHours();
+        var d = ("00" + dt.getDate()).slice(-2);
+        var m = ("00" + (dt.getMonth()+1)).slice(-2);
+        var y = dt.getFullYear();
+		var mydist = document.getElementById('myDist').value;
+		if (mydist != "") 
+		myto = mydist;
+		var myLinkstr1 = "https://transit.yahoo.co.jp/search/result?from=" + myfrom + "&to=" + myto + "&y=" + y + "&m=" + m + "&d=" + d;
+		var myLinkstr2 = "&hh=" + h + "&m1=" + m1 + "&m2=" + m2;
+		return myLinkstr1 + myLinkstr2;
+	};
+
+	//出発地変更
+	function myC1(e){
+		if (document.getElementById('honsya').checked){
+			//本社発の行き先は研究所のみ
+			document.getElementById('2labo').checked = true;
+			mydistination = "2labo";
+		} else {
+			//行き先選択のラジオボタンのチェックを外す
+			for (const element of document.getElementsByName('tab_item2')) {
+				element.checked = false;
+			};
+			mydistination = "";
+		};
+		myC3();// 時刻表消去
+	};
+
+	//バスの行き先変更
+	function myC2(e){
+		mydistination = e.target.id;
+		myC3();
+	};
+
+	//目的地変更
+	function myC3(e){
+		var aryL2A =[
+				[99,99,99,99,99,99,99,99], // 7時
+				[99,99,99,99,99,99,99,99], // 8
+				[99,99,99,99,99,99,99,99], // 9
+				[99,99,99,99,99,99,99,99], // 10
+				[99,99,99,99,99,99,99,99], // 11
+				[22,36,99,99,99,99,99,99], // 12
+				[35,99,99,99,99,99,99,99], // 13
+				[22,99,99,99,99,99,99,99], // 14
+				[06,99,99,99,99,99,99,99], // 15
+				[13,40,99,99,99,99,99,99], // 16
+				[13,23,38,43,51,54,99,99], // 17
+				[00,08,15,25,37,43,51,54], // 18
+				[10,30,45,99,99,99,99,99], // 19
+				[00,15,-45,99,99,99,99,99], // 20
+				[28,99,99,99,99,99,99,99], // 21
+				[99,99,99,99,99,99,99,99], // 22
+				[99,99,99,99,99,99,99,99]  // 23
+		];
+		var aryL2H =[
+				[99,99,99,99,99,99,99,99], // 7時
+				[99,99,99,99,99,99,99,99], // 8
+				[10,50,99,99,99,99,99,99], // 9
+				[50,99,99,99,99,99,99,99], // 10
+				[50,99,99,99,99,99,99,99], // 11
+				[50,99,99,99,99,99,99,99], // 12
+				[20,99,99,99,99,99,99,99], // 13
+				[30,99,99,99,99,99,99,99], // 14
+				[00,99,99,99,99,99,99,99], // 15
+				[00,40,99,99,99,99,99,99], // 16
+				[99,99,99,99,99,99,99,99], // 17
+				[99,99,99,99,99,99,99,99], // 18
+				[99,99,99,99,99,99,99,99], // 19
+				[99,99,99,99,99,99,99,99], // 20
+				[99,99,99,99,99,99,99,99], // 21
+				[99,99,99,99,99,99,99,99], // 22
+				[99,99,99,99,99,99,99,99]  // 23
+		];
+		var aryL2N =[
+				[22,51,99,99,99,99,99,99], // 7時
+				[20,43,58,99,99,99,99,99], // 8
+				[28,99,99,99,99,99,99,99], // 9
+				[00,45,99,99,99,99,99,99], // 10
+				[10,54,99,99,99,99,99,99], // 11
+				[34,99,99,99,99,99,99,99], // 12
+				[14,54,99,99,99,99,99,99], // 13
+				[34,99,99,99,99,99,99,99], // 14
+				[08,44,99,99,99,99,99,99], // 15
+				[24,99,99,99,99,99,99,99], // 16
+				[15,29,43,57,99,99,99,99], // 17
+				[26,56,99,99,99,99,99,99], // 18
+				[35,99,99,99,99,99,99,99], // 19
+				[37,99,99,99,99,99,99,99], // 20
+				[34,99,99,99,99,99,99,99], // 21
+				[35,99,99,99,99,99,99,99], // 22
+				[99,99,99,99,99,99,99,99]  // 23
+		];
+		var aryH2L =[
+				[99,99,99,99,99,99,99,99], // 7時
+				[99,99,99,99,99,99,99,99], // 8
+				[10,99,99,99,99,99,99,99], // 9
+				[00,40,99,99,99,99,99,99], // 10
+				[-99,99,99,99,99,99,99,99], // 11
+				[10,40,99,99,99,99,99,99], // 12
+				[40,99,99,99,99,99,99,99], // 13
+				[10,99,99,99,99,99,99,99], // 14
+				[20,99,99,99,99,99,99,99], // 15
+				[00,50,99,99,99,99,99,99], // 16
+				[99,99,99,99,99,99,99,99], // 17
+				[99,99,99,99,99,99,99,99], // 18
+				[99,99,99,99,99,99,99,99], // 19
+				[99,99,99,99,99,99,99,99], // 20
+				[99,99,99,99,99,99,99,99], // 21
+				[99,99,99,99,99,99,99,99], // 22
+				[99,99,99,99,99,99,99,99]  // 23
+		];
+
+		var myfrom, myto, mylag;
+		var tmpAry;
+
+		switch (mydistination){
+		  case '2honsya':
+		    myfrom = "淀屋橋";
+			myto = "梅田";
+			mylag = 40;
+			tmpAry = aryL2H;
+			break;
+		  case '2ajikawa':
+		    myfrom = "安治川口";
+			myto = "淀屋橋";
+			mylag = 15;
+			tmpAry = aryL2A;
+			break;
+		  case '2nisikujyo':
+		    myfrom = "西九条";
+			myto = "淀屋橋";
+			mylag = 25;
+			tmpAry = aryL2N;
+			break;
+		  case '2labo':
+		    myfrom = "";
+			myto = "";
+			mylag = 0;
+			tmpAry = aryH2L;
+			break;
+		  default:
+		}
+
+        var dt = new Date();
+		dt.setMinutes(dt.getMinutes() + mylag);
+		var mm = dt.getMinutes();
+		var m1 = Math.floor(mm/10);
+		var m2 = mm - m1 * 10;
+		var h = dt.getHours();
+        var y = dt.getFullYear();
+        var m = ("00" + (dt.getMonth()+1)).slice(-2);
+        var d = ("00" + dt.getDate()).slice(-2);
+
+		var myLinkstr1 = myLinkmake(myfrom, myto, mylag, 7, 0);
+
+		// 今ある表を削除
+		var tableEle = document.getElementById('data-table');
+		let rw = tableEle.rows.length;//行数取得
+		for(let i=0; i < rw; i++) {
+			tableEle.deleteRow(0);//最初の行を削除
+		}
+		// 新しく表を作成
+		for (var i in tmpAry) {							// 表の行を追加する
+			if (tmpAry[i][0] == "99"){continue};
+			var tr = document.createElement('tr');
+			var td = document.createElement('td');
+			td.innerHTML = (i-1+8) + "時";
+			tr.appendChild(td);
+			for (var j in tmpAry[0]) {					// 表の列を追加する
+		    	var td = document.createElement('td');
+				if(Math.abs(tmpAry[i][j]) < 99){
+					var mya = document.createElement('a');
+					if (tmpAry[i][j] < 0) {
+		    			mya.innerText = -tmpAry[i][j] + "（正門前発）";
+						td.colSpan = "6";
+						td.style.textAlign = "left";
+						myLinkstr1 = myLinkmake(myfrom, myto, mylag +10, i-1+8, -tmpAry[i][j]);
+					} else {
+		    			mya.innerText = tmpAry[i][j];
+						myLinkstr1 = myLinkmake(myfrom, myto, mylag, i-1+8, tmpAry[i][j]);
+					};
+					if (mylag > 0) {
+						mya.href = myLinkstr1
+					};
+			    	td.appendChild(mya);
+			    	tr.appendChild(td);
+					if (tmpAry[i][j] < 0) {
+						break;
+					};
+				} else {
+		    		td.innerHTML = "-";
+			    	tr.appendChild(td);
+				}
+			}
+			tableEle.appendChild(tr);
+		}
+	};
+</script>
+
+</html>
