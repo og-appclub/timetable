@@ -15,7 +15,7 @@
 			.solid_line {font-size: 22px;  border-top: solid 1px black;  }
 			.solid_line_b {font-size: 22px;  border-bottom: solid 1px black;  }
 			.root {font-size: 18px; font: 100%/150% Times New Roman; }
-			.table-item {font-size:19px; line-height:1}
+			.table-item {font-size:20px; line-height:1.1}
 
 			/*タブ切り替え全体のスタイル*/
 			.tabs {	background-color: #fff;	}
@@ -34,7 +34,7 @@
 				font-weight: bold;
 				transition: all 0.2s ease;
 			}
-			.tab_item{width: 150px;}
+			.tab_item{width: 80px;}
 			.tab_item:hover {opacity: 0.75;}
 			/*ラジオボタンを全て消す*/
 			input[name="tab_item"] {display: none;}
@@ -44,6 +44,12 @@
 			/*選択されているタブのコンテンツのみを表示*/
 			#labo:checked ~ #fromlabo_content,
  			#honsya:checked ~ #fromhonsya_content {
+				display: block;
+			}
+ 			#ajikawa:checked ~ #fromhonsya_content {
+				display: block;
+			}
+ 			#nisikujyo:checked ~ #fromhonsya_content {
 				display: block;
 			}
 			/*選択されているタブのスタイルを変える*/
@@ -58,12 +64,18 @@
 		<span class="fs1">バス出発地</span><br>
 
 		<input id="labo" type="radio" name="tab_item" checked>
-		<label class="tab_item" for="labo">研究所前</label>
+		<label class="tab_item" for="labo">研究所</label>
 
 		<input id="honsya" type="radio" name="tab_item">
-		<label class="tab_item" for="honsya">本社発ｼｬﾄﾙ</label>
+		<label class="tab_item" for="honsya">本社</label>
 
-		<span class="fs1"><br><label>バスの行き先</label></span><br>
+		<input id="ajikawa" type="radio" name="tab_item">
+		<label class="tab_item" for="ajikawa">安治川口</label>
+
+		<input id="nisikujyo" type="radio" name="tab_item">
+		<label class="tab_item" for="nisikujyo">西九条</label>
+
+		<span class="fs1"><label><br>バスの行き先</label></span><br>
 
 		<div class="tab_content" id="fromlabo_content">
 
@@ -81,7 +93,7 @@
 				<INPUT type="text" style="width:200px" id="myDist" value="">
 				<br><hr>
 				<span class="fs2">※時刻タップでバスからの乗換案内が開きます</span><br>
-				<span class="fs2">※乗換案内は目安であり到着時刻を保証しません</span><br>
+				<span class="fs2">※乗換案内は目安で到着時刻を保証しません</span><br>
 			</FORM>
 		</div>
 
@@ -103,7 +115,7 @@
 	</div><br>
 </body>
 <script>
-	var mydistination;
+	var mydistination, mybusfrom;
 	//ラジオボタンにイベントリスナーを設定
     window.addEventListener( "DOMContentLoaded" , ()=> {
             document.getElementsByName("tab_item").forEach(
@@ -143,11 +155,23 @@
 			//本社発の行き先は研究所のみ
 			document.getElementById('2labo').checked = true;
 			mydistination = "2labo";
+			mybusfrom = "honsya";
+		} else if (document.getElementById('nisikujyo').checked){
+			//西九条発行き先は研究所のみ
+			document.getElementById('2labo').checked = true;
+			mydistination = "2labo";
+			mybusfrom = "nisikujyo";
+		} else if (document.getElementById('ajikawa').checked){
+			//安治川発の行き先は研究所のみ
+			document.getElementById('2labo').checked = true;
+			mydistination = "2labo";
+			mybusfrom = "ajikawa";
 		} else {
 			//行き先選択のラジオボタンのチェックを外す
 			for (const element of document.getElementsByName('tab_item2')) {
 				element.checked = false;
 			};
+			mybusfrom = "labo"
 			mydistination = "";
 		};
 		myC3();// 時刻表消去
@@ -155,7 +179,6 @@
 
 	//バスの行き先変更
 	function myC2(e){
-		document.getElementById("QR").style.display ="none";
 		mydistination = e.target.id;
 		myC3();
 	};
@@ -238,7 +261,44 @@
 				[99,99], // 22
 				[99,99]  // 23
 		];
-
+		var aryN2L =[
+				[19,34,44,56], // 7時
+				[18,32,99,99], // 8
+				[19,99,99,99], // 9
+				[10,58,99,99], // 10
+				[29,99,99,99], // 11
+				[15,41,99,99], // 12
+				[25,99,99,99], // 13
+				[03,43,99,99], // 14
+				[23,99,99,99], // 15
+				[04,38,99,99], // 16
+				[25,99,99,99], // 17
+				[12,99,99,99], // 18
+				[12,99,99,99], // 19
+				[17,99,99,99], // 20
+				[23,99,99,99], // 21
+				[21,99,99,99], // 22
+				[22,99,99,99]  // 23
+		];
+		var aryA2L =[
+				[07,14,31,38,47,54], // 7時
+				[-02,99,99,99,99,99], // 8
+				[05,20,42,58,99,99], // 9
+				[31,99,99,99,99,99], // 10
+				[-99,99,99,99,99,99], // 11
+				[35,99,99,99,99,99], // 12
+				[46,99,99,99,99,99], // 13
+				[35,99,99,99,99,99], // 14
+				[15,99,99,99,99,99], // 15
+				[25,99,99,99,99,99], // 16
+				[-99,99,99,99,99,99], // 17
+				[-99,99,99,99,99,99], // 18
+				[-99,99,99,99,99,99], // 19
+				[24,99,99,99,99,99], // 20
+				[99,99,99,99,99,99], // 21
+				[99,99,99,99,99,99], // 22
+				[99,99,99,99,99,99]  // 23
+		];
 		var myfrom, myto, mylag;
 		var tmpAry;
 
@@ -265,10 +325,18 @@
 		    myfrom = "";
 			myto = "";
 			mylag = 0;
-			tmpAry = aryH2L;
+			if (mybusfrom == "honsya") {
+				tmpAry = aryH2L;
+			} else if (mybusfrom == "ajikawa") {
+				tmpAry = aryA2L;
+			} else {
+				tmpAry = aryN2L;
+			}
 			break;
 		  default:
 		}
+		document.getElementById("QR").style.display ="none";
+		console.log("出発地 " + mybusfrom + " : 行き先 " + mydistination);
 
         var dt = new Date();
 		dt.setMinutes(dt.getMinutes() + mylag);
@@ -300,7 +368,8 @@
 				if(Math.abs(tmpAry[i][j]) < 99){
 					var mya = document.createElement('a');
 					if (tmpAry[i][j] < 0) {
-		    			mya.innerText = -tmpAry[i][j] + "（正門前発）";
+						if (tmpAry[i][j] == -45) {var tmpstr = "（正門前発）"} else {var tmpstr = "（以降5～8分間隔）"};
+		    			mya.innerText = -tmpAry[i][j] + tmpstr;
 						td.colSpan = "6";
 						td.style.textAlign = "left";
 						myLinkstr1 = myLinkmake(myfrom, myto, mylag +10, i-1+8, -tmpAry[i][j]);
