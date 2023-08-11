@@ -4,23 +4,24 @@
 		<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=320px">
 		<style>
-			html{font-size: 53%; }
+			html{font-size: 40%;}
 			body{font-size: 2.1rem;}
 			INPUT{font-size: 2.1rem; padding: 1px 2px;}
 			select{font-size: 2.1rem;}
 			td {text-align: center; vertical-align: center;}
-		    .fs1 {font-size: 24px;background-color: white;}
+		    .fs1 {font-size: 18px;background-color: white;}
 		    .fs2 {font-size: 14px; line-height: 1.1}
 		    .fs3 {font-size: 22px;background-color: #ffffa0; border: none;}
 			.solid_line {font-size: 22px;  border-top: solid 1px black;  }
 			.solid_line_b {font-size: 22px;  border-bottom: solid 1px black;  }
 			.root {font-size: 18px; font: 100%/150% Times New Roman; }
+			.table-item {font-size:19px; line-height:1}
 
 			/*タブ切り替え全体のスタイル*/
 			.tabs {	background-color: #fff;	}
 			/*タブのスタイル*/
 			.tab_item,.tab_item2{
-				width: calc(33%);
+				width: 100px;
 				height: 21px;
 				background-color: #d9d9d9;
 				line-height: 20px;
@@ -33,6 +34,7 @@
 				font-weight: bold;
 				transition: all 0.2s ease;
 			}
+			.tab_item{width: 150px;}
 			.tab_item:hover {opacity: 0.75;}
 			/*ラジオボタンを全て消す*/
 			input[name="tab_item"] {display: none;}
@@ -53,7 +55,7 @@
 	</HEAD>
 <body>
 	<div class="tabs">
-		<span class="fs1">出発地</span><br>
+		<span class="fs1">バス出発地</span><br>
 
 		<input id="labo" type="radio" name="tab_item" checked>
 		<label class="tab_item" for="labo">研究所前</label>
@@ -61,7 +63,7 @@
 		<input id="honsya" type="radio" name="tab_item">
 		<label class="tab_item" for="honsya">本社発ｼｬﾄﾙ</label>
 
-		<br><span class="fs1">バスの行き先</span><br>
+		<span class="fs1"><br><label>バスの行き先</label></span><br>
 
 		<div class="tab_content" id="fromlabo_content">
 
@@ -74,12 +76,12 @@
 			<input id="2nisikujyo" type="radio" name="tab_item2">
 			<label class="tab_item2" for="2nisikujyo">西九条</label>
 
-			<FORM name="myForm"><br>
-				<span class="fs1">目的地</span><br>
+			<FORM name="myForm">
+				<span class="fs1"><label><br>目的地</label></span><br>
 				<INPUT type="text" style="width:200px" id="myDist" value="">
 				<br><hr>
-				<span class="fs2">※時刻をタップするとそのバスから接続する電車の乗換案内が開きます</span><br>
-				<span class="fs2">※リンク先の乗換案内は目安であり、到着時刻を保証するものではありません</span><br>
+				<span class="fs2">※時刻タップでバスからの乗換案内が開く</span><br>
+				<span class="fs2">※乗換案内は目安であり到着時刻を保証しない</span><br>
 			</FORM>
 		</div>
 
@@ -89,11 +91,14 @@
 			<br><hr>
 		</div>
 
-		<span class="fs2">※試作中</span><br>
-		<table border="1" id='data-table'>
+		<table border="1" id='data-table' class="table-item">
 			<tr></tr>
 		</table>
-		<a href="URL.gif" target="_blank"><img src="URL.gif" width="100" alt="" border="0"></a>
+		<div id="QR">
+		<a href="URL.gif" target="_blank"><img src="URL.gif" width="100" alt="" border="0"></a><br>
+		<font size="2">programmed by 青木康修</font>
+		</div>
+		
 
 	</div><br>
 </body>
@@ -150,6 +155,7 @@
 
 	//バスの行き先変更
 	function myC2(e){
+		document.getElementById("QR").style.display ="none";
 		mydistination = e.target.id;
 		myC3();
 	};
@@ -176,61 +182,61 @@
 				[99,99,99,99,99,99,99,99]  // 23
 		];
 		var aryL2H =[
-				[99,99,99,99,99,99,99,99], // 7時
-				[99,99,99,99,99,99,99,99], // 8
-				[10,50,99,99,99,99,99,99], // 9
-				[50,99,99,99,99,99,99,99], // 10
-				[50,99,99,99,99,99,99,99], // 11
-				[50,99,99,99,99,99,99,99], // 12
-				[20,99,99,99,99,99,99,99], // 13
-				[30,99,99,99,99,99,99,99], // 14
-				[00,99,99,99,99,99,99,99], // 15
-				[00,40,99,99,99,99,99,99], // 16
-				[99,99,99,99,99,99,99,99], // 17
-				[99,99,99,99,99,99,99,99], // 18
-				[99,99,99,99,99,99,99,99], // 19
-				[99,99,99,99,99,99,99,99], // 20
-				[99,99,99,99,99,99,99,99], // 21
-				[99,99,99,99,99,99,99,99], // 22
-				[99,99,99,99,99,99,99,99]  // 23
+				[99,99], // 7時
+				[99,99], // 8
+				[10,50], // 9
+				[50,99], // 10
+				[50,99], // 11
+				[50,99], // 12
+				[20,99], // 13
+				[30,99], // 14
+				[00,99], // 15
+				[00,40], // 16
+				[99,99], // 17
+				[99,99], // 18
+				[99,99], // 19
+				[99,99], // 20
+				[99,99], // 21
+				[99,99], // 22
+				[99,99]  // 23
 		];
 		var aryL2N =[
-				[22,51,99,99,99,99,99,99], // 7時
-				[20,43,58,99,99,99,99,99], // 8
-				[28,99,99,99,99,99,99,99], // 9
-				[00,45,99,99,99,99,99,99], // 10
-				[10,54,99,99,99,99,99,99], // 11
-				[34,99,99,99,99,99,99,99], // 12
-				[14,54,99,99,99,99,99,99], // 13
-				[34,99,99,99,99,99,99,99], // 14
-				[08,44,99,99,99,99,99,99], // 15
-				[24,99,99,99,99,99,99,99], // 16
-				[15,29,43,57,99,99,99,99], // 17
-				[26,56,99,99,99,99,99,99], // 18
-				[35,99,99,99,99,99,99,99], // 19
-				[37,99,99,99,99,99,99,99], // 20
-				[34,99,99,99,99,99,99,99], // 21
-				[35,99,99,99,99,99,99,99], // 22
-				[99,99,99,99,99,99,99,99]  // 23
+				[22,51,99,99], // 7時
+				[20,43,58,99], // 8
+				[28,99,99,99], // 9
+				[00,45,99,99], // 10
+				[10,54,99,99], // 11
+				[34,99,99,99], // 12
+				[14,54,99,99], // 13
+				[34,99,99,99], // 14
+				[08,44,99,99], // 15
+				[24,99,99,99], // 16
+				[15,29,43,57], // 17
+				[26,56,99,99], // 18
+				[35,99,99,99], // 19
+				[37,99,99,99], // 20
+				[34,99,99,99], // 21
+				[35,99,99,99], // 22
+				[99,99,99,99]  // 23
 		];
 		var aryH2L =[
-				[99,99,99,99,99,99,99,99], // 7時
-				[99,99,99,99,99,99,99,99], // 8
-				[10,99,99,99,99,99,99,99], // 9
-				[00,40,99,99,99,99,99,99], // 10
-				[-99,99,99,99,99,99,99,99], // 11
-				[10,40,99,99,99,99,99,99], // 12
-				[40,99,99,99,99,99,99,99], // 13
-				[10,99,99,99,99,99,99,99], // 14
-				[20,99,99,99,99,99,99,99], // 15
-				[00,50,99,99,99,99,99,99], // 16
-				[99,99,99,99,99,99,99,99], // 17
-				[99,99,99,99,99,99,99,99], // 18
-				[99,99,99,99,99,99,99,99], // 19
-				[99,99,99,99,99,99,99,99], // 20
-				[99,99,99,99,99,99,99,99], // 21
-				[99,99,99,99,99,99,99,99], // 22
-				[99,99,99,99,99,99,99,99]  // 23
+				[99,99], // 7時
+				[99,99], // 8
+				[10,99], // 9
+				[00,40], // 10
+				[-99,99], // 11
+				[10,40], // 12
+				[40,99], // 13
+				[10,99], // 14
+				[20,99], // 15
+				[00,50], // 16
+				[99,99], // 17
+				[99,99], // 18
+				[99,99], // 19
+				[99,99], // 20
+				[99,99], // 21
+				[99,99], // 22
+				[99,99]  // 23
 		];
 
 		var myfrom, myto, mylag;
