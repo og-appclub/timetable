@@ -15,13 +15,16 @@
 			.solid_line {font-size: 22px;  border-top: solid 1px black;  }
 			.solid_line_b {font-size: 22px;  border-bottom: solid 1px black;  }
 			.root {font-size: 18px; font: 100%/150% Times New Roman; }
-			.table-item {font-size:20px; line-height:1.1}
+			.table-item {
+				font-size:20px;
+				line-height:1.1
+			}
 
 			/*タブ切り替え全体のスタイル*/
 			.tabs {	background-color: #fff;	}
 			/*タブのスタイル*/
 			.tab_item,.tab_item2{
-				width: 100px;
+				width: 101px;
 				height: 21px;
 				background-color: #d9d9d9;
 				line-height: 20px;
@@ -43,13 +46,13 @@
 			.tab_content {display: none;	clear: both;	overflow: hidden;}
 			/*選択されているタブのコンテンツのみを表示*/
 			#labo:checked ~ #fromlabo_content,
- 			#honsya:checked ~ #fromhonsya_content {
+ 			#honsya:checked ~ #tolabo_content {
 				display: block;
 			}
- 			#ajikawa:checked ~ #fromhonsya_content {
+ 			#ajikawa:checked ~ #tolabo_content {
 				display: block;
 			}
- 			#nisikujyo:checked ~ #fromhonsya_content {
+ 			#nisikujyo:checked ~ #tolabo_content {
 				display: block;
 			}
 			/*選択されているタブのスタイルを変える*/
@@ -92,20 +95,24 @@
 				<span class="fs1"><label><br>目的地</label></span><br>
 				<INPUT type="text" style="width:200px" id="myDist" value="">
 				<br><hr>
-				<span class="fs2">※時刻タップでバスからの乗換案内が開きます</span><br>
-				<span class="fs2">※乗換案内は目安で到着時刻を保証しません</span><br>
 			</FORM>
 		</div>
 
-		<div class="tab_content" id="fromhonsya_content">
+		<div class="tab_content" id="tolabo_content">
 			<input id="2labo" type="radio" name="tab_item2">
 			<label class="tab_item2" for="2labo">研究所</label>
 			<br><hr>
 		</div>
 
-		<table border="1" id='data-table' class="table-item">
-			<tr></tr>
-		</table>
+		<div style="float:left">
+			<table border="1" id='data-table' class="table-item">
+				<tr></tr>
+			</table>
+		</div>
+		<div id="Notes1">
+			<span class="fs2">※時刻タップでバスからの乗換案内が開きます</span><br>
+			<span class="fs2">※乗換案内は目安であり到着時刻を保証するものではありません</span><br>
+		</div>
 		<div id="QR">
 		<a href="URL.gif" target="_blank"><img src="URL.gif" width="100" alt="" border="0"></a><br>
 		<font size="2">programmed by 青木康修</font>
@@ -115,7 +122,7 @@
 	</div><br>
 </body>
 <script>
-	var mydistination, mybusfrom;
+	let mydistination, mybusfrom;
 	//ラジオボタンにイベントリスナーを設定
     window.addEventListener( "DOMContentLoaded" , ()=> {
             document.getElementsByName("tab_item").forEach(
@@ -130,22 +137,21 @@
 	minput.addEventListener("input", myC3);
 
 	//リンク作成
-	function myLinkmake(myfrom, myto, mylag, hh, mm){
-        var dt = new Date();
-		dt.setHours(hh);
-		dt.setMinutes(mm + mylag);
-		var mm = dt.getMinutes();
-		var m1 = Math.floor(mm/10);
-		var m2 = mm - m1 * 10;
-		var h = dt.getHours();
-        var d = ("00" + dt.getDate()).slice(-2);
-        var m = ("00" + (dt.getMonth()+1)).slice(-2);
-        var y = dt.getFullYear();
-		var mydist = document.getElementById('myDist').value;
-		if (mydist != "") 
-		myto = mydist;
-		var myLinkstr1 = "https://transit.yahoo.co.jp/search/result?from=" + myfrom + "&to=" + myto + "&y=" + y + "&m=" + m + "&d=" + d;
-		var myLinkstr2 = "&hh=" + h + "&m1=" + m1 + "&m2=" + m2;
+	function myLinkmake(myfrom, myto, mylag, bhh, bmm){
+        let dt = new Date();
+		dt.setHours(bhh);
+		dt.setMinutes(bmm + mylag);
+		let mm = dt.getMinutes();
+		let m1 = Math.floor(mm/10);
+		let m2 = mm - m1 * 10;
+		let h = dt.getHours();
+        let d = ("00" + dt.getDate()).slice(-2);
+        let m = ("00" + (dt.getMonth()+1)).slice(-2);
+        let y = dt.getFullYear();
+		let mydist = document.getElementById('myDist').value;
+		if (mydist != "") myto = mydist;
+		let myLinkstr1 = "https://transit.yahoo.co.jp/search/result?from=" + myfrom + "&to=" + myto + "&y=" + y + "&m=" + m + "&d=" + d;
+		let myLinkstr2 = "&hh=" + h + "&m1=" + m1 + "&m2=" + m2;
 		return myLinkstr1 + myLinkstr2;
 	};
 
@@ -185,7 +191,7 @@
 
 	//目的地変更
 	function myC3(e){
-		var aryL2A =[
+		const aryL2A =[
 				[99,99,99,99,99,99,99,99], // 7時
 				[99,99,99,99,99,99,99,99], // 8
 				[99,99,99,99,99,99,99,99], // 9
@@ -200,11 +206,9 @@
 				[00,08,15,25,37,43,51,54], // 18
 				[10,30,45,99,99,99,99,99], // 19
 				[00,15,-45,99,99,99,99,99], // 20
-				[28,99,99,99,99,99,99,99], // 21
-				[99,99,99,99,99,99,99,99], // 22
-				[99,99,99,99,99,99,99,99]  // 23
+				[28,99,99,99,99,99,99,99] // 21
 		];
-		var aryL2H =[
+		const aryL2H =[
 				[99,99], // 7時
 				[99,99], // 8
 				[10,50], // 9
@@ -214,16 +218,10 @@
 				[20,99], // 13
 				[30,99], // 14
 				[00,99], // 15
-				[00,40], // 16
-				[99,99], // 17
-				[99,99], // 18
-				[99,99], // 19
-				[99,99], // 20
-				[99,99], // 21
-				[99,99], // 22
-				[99,99]  // 23
+				[00,40] // 16
+
 		];
-		var aryL2N =[
+		const aryL2N =[
 				[22,51,99,99], // 7時
 				[20,43,58,99], // 8
 				[28,99,99,99], // 9
@@ -239,10 +237,9 @@
 				[35,99,99,99], // 19
 				[37,99,99,99], // 20
 				[34,99,99,99], // 21
-				[35,99,99,99], // 22
-				[99,99,99,99]  // 23
+				[35,99,99,99] // 22
 		];
-		var aryH2L =[
+		const aryH2L =[
 				[99,99], // 7時
 				[99,99], // 8
 				[10,99], // 9
@@ -252,16 +249,10 @@
 				[40,99], // 13
 				[10,99], // 14
 				[20,99], // 15
-				[00,50], // 16
-				[99,99], // 17
-				[99,99], // 18
-				[99,99], // 19
-				[99,99], // 20
-				[99,99], // 21
-				[99,99], // 22
-				[99,99]  // 23
+				[00,50] // 16
+
 		];
-		var aryN2L =[
+		const aryN2L =[
 				[19,34,44,56], // 7時
 				[18,32,99,99], // 8
 				[19,99,99,99], // 9
@@ -280,7 +271,7 @@
 				[21,99,99,99], // 22
 				[22,99,99,99]  // 23
 		];
-		var aryA2L =[
+		const aryA2L =[
 				[07,14,31,38,47,54], // 7時
 				[-02,99,99,99,99,99], // 8
 				[05,20,42,58,99,99], // 9
@@ -294,13 +285,10 @@
 				[-99,99,99,99,99,99], // 17
 				[-99,99,99,99,99,99], // 18
 				[-99,99,99,99,99,99], // 19
-				[24,99,99,99,99,99], // 20
-				[99,99,99,99,99,99], // 21
-				[99,99,99,99,99,99], // 22
-				[99,99,99,99,99,99]  // 23
+				[24,99,99,99,99,99] // 20
 		];
-		var myfrom, myto, mylag;
-		var tmpAry;
+		let myfrom, myto, mylag;
+		let tmpAry;
 
 		switch (mydistination){
 		  case '2honsya':
@@ -338,37 +326,38 @@
 		document.getElementById("QR").style.display ="none";
 		console.log("出発地 " + mybusfrom + " : 行き先 " + mydistination);
 
-        var dt = new Date();
+        let dt = new Date();
 		dt.setMinutes(dt.getMinutes() + mylag);
-		var mm = dt.getMinutes();
-		var m1 = Math.floor(mm/10);
-		var m2 = mm - m1 * 10;
-		var h = dt.getHours();
-        var y = dt.getFullYear();
-        var m = ("00" + (dt.getMonth()+1)).slice(-2);
-        var d = ("00" + dt.getDate()).slice(-2);
+		let mm = dt.getMinutes();
+		let m1 = Math.floor(mm/10);
+		let m2 = mm - m1 * 10;
+		let h = dt.getHours();
+        let y = dt.getFullYear();
+        let m = ("00" + (dt.getMonth()+1)).slice(-2);
+        let d = ("00" + dt.getDate()).slice(-2);
 
-		var myLinkstr1 = myLinkmake(myfrom, myto, mylag, 7, 0);
+		let myLinkstr1 = myLinkmake(myfrom, myto, mylag, 7, 0);
 
 		// 今ある表を削除
-		var tableEle = document.getElementById('data-table');
+		let tableEle = document.getElementById('data-table');
 		let rw = tableEle.rows.length;//行数取得
 		for(let i=0; i < rw; i++) {
 			tableEle.deleteRow(0);//最初の行を削除
 		}
 		// 新しく表を作成
-		for (var i in tmpAry) {							// 表の行を追加する
+		let td,tr,tmpstr;
+		for (let i in tmpAry) {							// 表の行を追加する
 			if (tmpAry[i][0] == "99"){continue};
-			var tr = document.createElement('tr');
-			var td = document.createElement('td');
+			tr = document.createElement('tr');
+			td = document.createElement('td');
 			td.innerHTML = (i-1+8) + "時";
 			tr.appendChild(td);
-			for (var j in tmpAry[0]) {					// 表の列を追加する
-		    	var td = document.createElement('td');
+			for (let j in tmpAry[0]) {					// 表の列を追加する
+		    	td = document.createElement('td');
 				if(Math.abs(tmpAry[i][j]) < 99){
-					var mya = document.createElement('a');
+					let mya = document.createElement('a');
 					if (tmpAry[i][j] < 0) {
-						if (tmpAry[i][j] == -45) {var tmpstr = "（正門前発）"} else {var tmpstr = "（以降5～8分間隔）"};
+						if (tmpAry[i][j] == -45) {tmpstr = "（正門発）"} else {tmpstr = "（以降2～8分間隔）"};
 		    			mya.innerText = -tmpAry[i][j] + tmpstr;
 						td.colSpan = "6";
 						td.style.textAlign = "left";
