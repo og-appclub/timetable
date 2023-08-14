@@ -11,10 +11,17 @@
 			td {text-align: center; vertical-align: center;}
 		    .fs1 {font-size: 18px;background-color: white; display:block; padding: 0px; margin: 0px;}
 		    .fs4 {font-size: 10px; line-height: 1.1; padding: 0px; margin: 4px;}
-			.solid_line {font-size: 22px;  border-top: solid 1px black;  }
-			.solid_line_b {font-size: 22px;  border-bottom: solid 1px black;  }
 			.root {font-size: 18px; font: 100%/150% Times New Roman; }
-			.table-item {font-size:20px; line-height:1.1}
+			table {
+				border-collapse: collapse;
+				font-size:20px;
+				line-height:1.1
+			}
+			table tr, table td{
+				border: solid 1px #aaaaaa;
+				padding: 1px 4px;
+				margin: 0px;
+			}
 
 			/*タブ切り替え全体のスタイル*/
 			.tabs {	background-color: #fff;	}
@@ -99,7 +106,7 @@
 			※乗換案内は目安であり到着時刻を保証するものではありません</p>
 		</div>
 		<div style="float:left">
-			<table border="1" id='data-table' class="table-item">
+			<table id='data-table' class="table-item">
 				<tr></tr>
 			</table>
 		</div>
