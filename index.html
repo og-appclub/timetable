@@ -5,14 +5,12 @@
 		<meta name="viewport" content="width=320px">
 		<style>
 			html{font-size: 40%;}
-			body{font-size: 2.1rem;}
-			INPUT{font-size: 2.1rem; padding: 1px 2px;}
+			body{font-size: 2.1rem; padding: 0px; margin: 4px;}
+			INPUT{font-size: 2.1rem; padding: 1px 2px; display:inline;}
 			select{font-size: 2.1rem;}
 			td {text-align: center; vertical-align: center;}
-		    .fs1 {font-size: 18px;background-color: white;}
-		    .fs2 {font-size: 14px; line-height: 1.1}
-		    .fs3 {font-size: 22px;background-color: #ffffa0; border: none;}
-		    .fs4 {font-size: 10px; line-height: 1.1}
+		    .fs1 {font-size: 18px;background-color: white; display:block; padding: 0px; margin: 0px;}
+		    .fs4 {font-size: 10px; line-height: 1.1; padding: 0px; margin: 4px;}
 			.solid_line {font-size: 22px;  border-top: solid 1px black;  }
 			.solid_line_b {font-size: 22px;  border-bottom: solid 1px black;  }
 			.root {font-size: 18px; font: 100%/150% Times New Roman; }
@@ -22,7 +20,7 @@
 			.tabs {	background-color: #fff;	}
 			/*タブのスタイル*/
 			.tab_item,.tab_item2{
-				width: 101px;
+				width: 76px;
 				height: 21px;
 				background-color: #d9d9d9;
 				line-height: 20px;
@@ -35,7 +33,6 @@
 				font-weight: bold;
 				transition: all 0.2s ease;
 			}
-			.tab_item{width: 76px;}
 			.tab_item:hover {opacity: 0.75;}
 			/*ラジオボタンを全て消す*/
 			input[name="tab_item"] {display: none;}
@@ -48,7 +45,7 @@
  			#honsya:checked ~ #tolabo_content,
  			#ajikawa:checked ~ #tolabo_content,
  			#nisikujyo:checked ~ #tolabo_content {
-				display: block;
+				display: inline;
 			}
 			/*選択されているタブのスタイルを変える*/
 			.tabs input:checked + .tab_item {background-color: #5ab4bd;		color: #fff;}
@@ -58,41 +55,35 @@
 		<TITLE>時刻表</TITLE>
 	</HEAD>
 <body>
-	<div class="tabs">
-		<span class="fs1">バス出発地</span><br>
-
+	<div class="tabs" style=" padding: 0px; margin: 0px;">
+	
+		<label class="fs1">バス出発地</label>
 		<input id="labo" type="radio" name="tab_item" checked>
 		<label class="tab_item" for="labo">研究所</label>
-
 		<input id="honsya" type="radio" name="tab_item">
 		<label class="tab_item" for="honsya">本社</label>
-
 		<input id="ajikawa" type="radio" name="tab_item">
 		<label class="tab_item" for="ajikawa">安治川口</label>
-
 		<input id="nisikujyo" type="radio" name="tab_item">
 		<label class="tab_item" for="nisikujyo">西九条</label>
 
-		<span class="fs1"><label><br>バスの行き先</label></span><br>
-
+		<label class="fs1"><br>バスの行き先</label>
 		<div class="tab_content" id="fromlabo_content">
-
 			<input id="m2honsya" type="radio" name="tab_item2">
 			<label class="tab_item2" for="m2honsya">本社</label>
-
 			<input id="m2ajikawa" type="radio" name="tab_item2">
 			<label class="tab_item2" for="m2ajikawa">安治川口</label>
-
 			<input id="m2nisikujyo" type="radio" name="tab_item2">
 			<label class="tab_item2" for="m2nisikujyo">西九条</label>
-
+			<input id="m2maisima" type="radio" name="tab_item2">
+			<label class="tab_item2" for="m2maisima">舞洲</label>
 			<FORM name="myForm">
-				<span class="fs1"><label><br>目的地</label></span><br>
+				<label class="fs1"><br>目的地</label>
 				<INPUT type="text" style="width:200px" id="myDist" value="">
 				<br><hr>
 				<div class="note_content" id="tohonsya_content">
-					<span class="fs4">※時刻タップでバスからの乗換案内が開きます</span><br>
-					<span class="fs4">※乗換案内は目安であり到着時刻を保証するものではありません</span><br>
+					<p class="fs4">※時刻タップでバスからの乗換案内が開きます<br>
+					※乗換案内は目安であり到着時刻を保証するものではありません</p>
 				</div>
 			</FORM>
 		</div>
@@ -104,8 +95,8 @@
 		</div>
 
 		<div class="note_content" id="toajikawa_content">
-			<span class="fs4">※時刻タップでバスからの乗換案内が開きます</span><br>
-			<span class="fs4">※乗換案内は目安であり到着時刻を保証するものではありません</span><br>
+			<p class="fs4">※時刻タップでバスからの乗換案内が開きます<br>
+			※乗換案内は目安であり到着時刻を保証するものではありません</p>
 		</div>
 		<div style="float:left">
 			<table border="1" id='data-table' class="table-item">
@@ -113,14 +104,17 @@
 			</table>
 		</div>
 		<div class="note_content" id="tonisikujyo_content">
-			<span class="fs4">※時刻タップでバスからの乗換案内が開きます</span><br>
-			<span class="fs4">※乗換案内は目安であり到着時刻を保証するものではありません</span><br>
+			<p class="fs4">※時刻タップでバスからの乗換案内が開きます<br>
+			※乗換案内は目安であり到着時刻を保証するものではありません</p>
 			平日・土・日を含む最新の時刻表は
 			<a href="https://kensaku.osakametro.co.jp/timetable/bus/dia/stop/0240/60#01" target="_blank">こちら</a>
 		</div>
 		<div class="note_content" id="fromnisikujyo_content">
 			平日・土・日を含む最新の時刻表は
 			<a href="https://kensaku.osakametro.co.jp/timetable/bus/dia/stop/0221/20#02" target="_blank">こちら</a>
+		</div>
+		<div class="note_content" id="tomaisima_content">
+			※全て酉島正門発
 		</div>
 		<div id="QR">
 		<a href="URL.gif" target="_blank"><img src="URL.gif" width="100" alt="" border="0"></a><br>
@@ -147,7 +141,7 @@
 	minput.addEventListener("input", myC3);
 
 	//リンク作成
-	function myLinkmake(myfrom, myto, mylag, bhh, bmm){
+	function myLinkmake(trainfrom, trainto, mylag, bhh, bmm){
         let dt = new Date();
 		dt.setHours(bhh);
 		dt.setMinutes(bmm + mylag);
@@ -159,8 +153,8 @@
         let m = ("00" + (dt.getMonth()+1)).slice(-2);
         let y = dt.getFullYear();
 		let mydist = document.getElementById('myDist').value;
-		if (mydist != "") myto = mydist;
-		let myLinkstr1 = "https://transit.yahoo.co.jp/search/result?from=" + myfrom + "&to=" + myto + "&y=" + y + "&m=" + m + "&d=" + d;
+		if (mydist != "") trainto = mydist;
+		let myLinkstr1 = "https://transit.yahoo.co.jp/search/result?from=" + trainfrom + "&to=" + trainto + "&y=" + y + "&m=" + m + "&d=" + d;
 		let myLinkstr2 = "&hh=" + h + "&m1=" + m1 + "&m2=" + m2;
 		return myLinkstr1 + myLinkstr2;
 	};
@@ -249,6 +243,22 @@
 				[34,99,99,99], // 21
 				[35,99,99,99] // 22
 		];
+		const aryL2M =[
+				[99,99], // 7時
+				[99,99], // 8
+				[27,49], // 9
+				[-99,99], // 10
+				[-99,99], // 11
+				[-99,99], // 12
+				[-99,99], // 13
+				[-99,99], // 14
+				[-99,99], // 15
+				[-99,99], // 16
+				[-99,99], // 17
+				[-99,99], // 18
+				[-99,99], // 19
+				[45,99] // 20
+		];
 		const aryH2L =[
 				[99,99], // 7時
 				[99,99], // 8
@@ -260,7 +270,6 @@
 				[10,99], // 14
 				[20,99], // 15
 				[00,50] // 16
-
 		];
 		const aryN2L =[
 				[19,34,44,56], // 7時
@@ -297,36 +306,43 @@
 				[-99,99,99,99,99,99], // 19
 				[24,99,99,99,99,99] // 20
 		];
-		let myfrom, myto, mylag;
+		let trainfrom, trainto, mylag;
 		let tmpAry;
 
 		var kesu = document.getElementsByClassName('note_content');
 		for(var i = 0; i < kesu.length; i++) {kesu[i].style.display = "none";};
 		switch (mydistination){
 		  case 'm2honsya':
-		    myfrom = "淀屋橋";
-			myto = "梅田";
+		    trainfrom = "淀屋橋";
+			trainto = "梅田";
 			mylag = 40;
 			tmpAry = aryL2H;
 			document.getElementById("tohonsya_content").style.display ="block";
 			break;
 		  case 'm2ajikawa':
-		    myfrom = "安治川口";
-			myto = "淀屋橋";
+		    trainfrom = "安治川口";
+			trainto = "淀屋橋";
 			mylag = 15;
 			tmpAry = aryL2A;
 			document.getElementById("toajikawa_content").style.display ="block";
 			break;
 		  case 'm2nisikujyo':
-		    myfrom = "西九条";
-			myto = "淀屋橋";
+		    trainfrom = "西九条";
+			trainto = "淀屋橋";
 			mylag = 27;
 			tmpAry = aryL2N;
 			document.getElementById("tonisikujyo_content").style.display ="block";
 			break;
+		  case 'm2maisima':
+		    trainfrom = "";
+			trainto = "";
+			mylag = 0;
+			tmpAry = aryL2M;
+			document.getElementById("tomaisima_content").style.display ="block";
+			break;
 		  case 'm2labo':
-		    myfrom = "";
-			myto = "";
+		    trainfrom = "";
+			trainto = "";
 			mylag = 0;
 			if (mybusfrom == "honsya") {
 				tmpAry = aryH2L;
@@ -352,7 +368,7 @@
         let m = ("00" + (dt.getMonth()+1)).slice(-2);
         let d = ("00" + dt.getDate()).slice(-2);
 
-		let myLinkstr1 = myLinkmake(myfrom, myto, mylag, 7, 0);
+		let myLinkstr1 = myLinkmake(trainfrom, trainto, mylag, 7, 0);
 
 		// 今ある表を削除
 		let tableEle = document.getElementById('data-table');
@@ -377,13 +393,14 @@
 		    			mya.innerText = -tmpAry[i][j] + tmpstr;
 						td.colSpan = "6";
 						td.style.textAlign = "left";
-						myLinkstr1 = myLinkmake(myfrom, myto, mylag +10, i-1+8, -tmpAry[i][j]);
+						myLinkstr1 = myLinkmake(trainfrom, trainto, mylag +10, i-1+8, -tmpAry[i][j]);
 					} else {
 		    			mya.innerText = tmpAry[i][j];
-						myLinkstr1 = myLinkmake(myfrom, myto, mylag, i-1+8, tmpAry[i][j]);
+						myLinkstr1 = myLinkmake(trainfrom, trainto, mylag, i-1+8, tmpAry[i][j]);
 					};
 					if (mylag > 0) {
-						mya.href = myLinkstr1
+						mya.href = myLinkstr1;
+						mya.target="_blank";
 					};
 			    	td.appendChild(mya);
 			    	tr.appendChild(td);
