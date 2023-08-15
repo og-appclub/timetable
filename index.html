@@ -8,7 +8,6 @@
 			body{font-size: 2.1rem; padding: 0px; margin: 4px;}
 			INPUT{font-size: 2.1rem; padding: 1px 2px; display:inline;}
 			select{font-size: 2.1rem;}
-			td {text-align: center; vertical-align: center;}
 		    .fs1 {font-size: 18px;background-color: white; display:block; padding: 0px; margin: 0px;}
 		    .fs4 {font-size: 10px; line-height: 1.1; padding: 0px; margin: 4px;}
 			.root {font-size: 18px; font: 100%/150% Times New Roman; }
@@ -18,7 +17,9 @@
 				line-height:1.1
 			}
 			table tr, table td{
-				border: solid 1px #aaaaaa;
+				border: solid 1px #bbbbbb;
+				text-align: center;
+				vertical-align: center;
 				padding: 1px 3px;
 				margin: 0px;
 			}
@@ -85,9 +86,8 @@
 			<input id="m2maisima" type="radio" name="tab_item2">
 			<label class="tab_item2" for="m2maisima">舞洲</label>
 			<FORM name="myForm">
-				<label class="fs1"><br>目的地</label>
-				<INPUT type="text" style="width:200px" id="myDist" value="">
-				<br><hr>
+				<label class="fs1"><br>目的地 <INPUT type="text" style="width:200px" id="myDist" value=""></label>
+				<hr>
 				<div class="note_content" id="tohonsya_content">
 					<p class="fs4">※時刻タップでバスからの乗換案内が開きます<br>
 					※乗換案内は目安であり到着時刻を保証するものではありません</p>
