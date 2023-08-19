@@ -398,7 +398,7 @@
 			if (tmpAry[i][0]-1 < 0){
 				td.innerHTML = tmpAry[i][1];
 				td.colSpan = tmpAry[0].length;
-				td.style.background = "#cccccc";
+				td.style = "font-size: 16px; color: #565656; background-color: #d9d9d9; font-weight: bold;";
 				tr.appendChild(td);
 				tableEle.appendChild(tr);
 				continue
@@ -413,7 +413,7 @@
 					if (tmpAry[i][j] < 0) {
 						if (tmpAry[i][j] == -45) {tmpstr = "（正門発）"} else {tmpstr = "（以降2～8分間隔）"};
 		    			mya.innerText = -tmpAry[i][j] + tmpstr;
-						td.colSpan = "6";
+						td.colSpan = tmpAry[0].length - j;
 						td.style.textAlign = "left";
 						myLinkstr1 = myLinkmake(trainfrom, trainto, mylag +10, i-1+8, -tmpAry[i][j]);
 					} else {
