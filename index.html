@@ -426,10 +426,10 @@
 		    			mya.innerText = -tmpAry[i][j] + tmpstr;
 						td.colSpan = tmpAry[0].length - j;
 						td.style.textAlign = "left";
-						myLinkstr1 = myLinkmake(trainfrom, trainto, mylag +10, i-1+8, -tmpAry[i][j]);
+						myLinkstr1 = myLinkmake(trainfrom, trainto, mylag +10, tmpAry[i][0], -tmpAry[i][j]);
 					} else {
 		    			mya.innerText = tmpAry[i][j];
-						myLinkstr1 = myLinkmake(trainfrom, trainto, mylag, i-1+8, tmpAry[i][j]);
+						myLinkstr1 = myLinkmake(trainfrom, trainto, mylag, tmpAry[i][0], tmpAry[i][j]);
 					};
 					if (mylag > 0) {
 						mya.href = myLinkstr1;
