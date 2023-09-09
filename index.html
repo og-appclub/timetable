@@ -91,6 +91,7 @@
 				<div class="note_content" id="tohonsya_content">
 					<p class="fs4">※時刻タップでバスからの乗換案内が開きます<br>
 					※乗換案内は目安であり到着時刻を保証するものではありません</p>
+					※全て導管技術Cを経由
 				</div>
 			</FORM>
 		</div>
@@ -99,6 +100,9 @@
 			<input id="m2labo" type="radio" name="tab_item2">
 			<label class="tab_item2" for="m2labo">研究所</label>
 			<br><hr>
+			<div class="note_content" id="fromajikawa_content">
+				※約14分後に酉島正門→導管技術C
+			</div>
 		</div>
 
 		<div class="note_content" id="toajikawa_content">
@@ -359,6 +363,7 @@
 				tmpAry = aryH2L;
 			} else if (mybusfrom == "ajikawa") {
 				tmpAry = aryA2L;
+				document.getElementById("fromajikawa_content").style.display ="block";
 			} else {
 				tmpAry = aryN2L;
 				document.getElementById("fromnisikujyo_content").style.display ="block";
