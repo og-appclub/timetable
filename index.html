@@ -450,7 +450,7 @@
 						myLinkstr1 = myLinkmake(trainfrom, trainto, mylag +10, tmpAry[i][0], -tmpAry[i][j]);
 					} else if ((tmpAry[i][j]) > 99 && (tmpAry[i][j] < 999)) {
 		    			mya.innerHTML = tmpAry[i][j] -100 + '<span style="font-size:50%;">西</span>';
-						myLinkstr1 = myLinkmake(trainfrom, trainto, mylag, tmpAry[i][0], tmpAry[i][j]);
+						myLinkstr1 = myLinkmake("西九条", trainto, 23, tmpAry[i][0], tmpAry[i][j]-100);
 					} else {
 		    			mya.innerHTML = tmpAry[i][j];
 						myLinkstr1 = myLinkmake(trainfrom, trainto, mylag, tmpAry[i][0], tmpAry[i][j]);
