@@ -15,8 +15,8 @@ def reconnect_wifi():
 
 def is_connected():
     try:
-        # Google DNSに接続できるか確認（インターネット接続の判定）
-        socket.create_connection(("8.8.8.8", 53), timeout=3)
+        # ルーターに接続できるか確認（Wifi接続の判定）
+        socket.create_connection(("192.168.0.1", 80), timeout=3)
         return True
     except OSError:
         return False
