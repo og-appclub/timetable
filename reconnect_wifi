@@ -2,8 +2,8 @@ import subprocess
 import time
 
 # 接続するWi-Fiの設定
-SSID = "Your_SSID"
-CONNECTION_NAME = "Your_Connection_Name"  # 通常はSSIDと同じ
+SSID = "pepepe-24AES"
+CONNECTION_NAME = "pepepe-24AES"  # 通常はSSIDと同じ
 WAIT_SECONDS = 5
 
 def run_cmd(cmd):
