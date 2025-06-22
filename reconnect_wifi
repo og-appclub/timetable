@@ -1,30 +1,27 @@
 import subprocess
 import time
+import socket
 
 # 接続するWi-Fiの設定
 SSID = "pepepe-24AES"
 CONNECTION_NAME = "pepepe-24AES"  # 通常はSSIDと同じ
-WAIT_SECONDS = 5
-
-def run_cmd(cmd):
-    try:
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
-        print(result.stdout)
-        if result.stderr:
-            print("Error:", result.stderr)
-    except Exception as e:
-        print("Exception:", e)
 
 def reconnect_wifi():
-    print("切断中...")
-    run_cmd(f"nmcli con down '{CONNECTION_NAME}'")
-    time.sleep(WAIT_SECONDS)
+    print("Wi-Fi再接続中...")
+    subprocess.run("nmcli con down '{CONNECTION_NAME}'", shell=True)
+    time.sleep(5)
+    subprocess.run("nmcli con up '{CONNECTION_NAME}'", shell=True)
+    print("再接続完了")
 
-    print("再接続中...")
-    run_cmd(f"nmcli con up '{CONNECTION_NAME}'")
-
-    print("完了。接続状態を確認します...")
-    run_cmd("nmcli -t -f active,ssid dev wifi")
+def is_connected():
+    try:
+        # Google DNSに接続できるか確認（インターネット接続の判定）
+        socket.create_connection(("8.8.8.8", 53), timeout=3)
+        return True
+    except OSError:
+        return False
 
 if __name__ == "__main__":
-    reconnect_wifi()
+    if not is_connected():
+        print("ネット未接続。再接続を試みます...")
+        reconnect_wifi()
