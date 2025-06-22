@@ -1,0 +1,30 @@
+import subprocess
+import time
+
+# 接続するWi-Fiの設定
+SSID = "Your_SSID"
+CONNECTION_NAME = "Your_Connection_Name"  # 通常はSSIDと同じ
+WAIT_SECONDS = 5
+
+def run_cmd(cmd):
+    try:
+        result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+        print(result.stdout)
+        if result.stderr:
+            print("Error:", result.stderr)
+    except Exception as e:
+        print("Exception:", e)
+
+def reconnect_wifi():
+    print("切断中...")
+    run_cmd(f"nmcli con down '{CONNECTION_NAME}'")
+    time.sleep(WAIT_SECONDS)
+
+    print("再接続中...")
+    run_cmd(f"nmcli con up '{CONNECTION_NAME}'")
+
+    print("完了。接続状態を確認します...")
+    run_cmd("nmcli -t -f active,ssid dev wifi")
+
+if __name__ == "__main__":
+    reconnect_wifi()
