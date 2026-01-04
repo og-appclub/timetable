@@ -120,7 +120,8 @@
 		</div>
 
 		<div class="note_content" id="toajikawa_content">
-			<p class="fs4">※時刻タップでバスからの乗換案内が開きます<br>
+			<p class="fs4">※全て酉島正門発<br>
+			※時刻タップでバスからの乗換案内が開きます<br>
 			※乗換案内は目安であり到着時刻を保証するものではありません</p>
 		</div>
 		<div style="float:left">
@@ -132,11 +133,11 @@
 			<p class="fs4">※時刻タップでバスからの乗換案内が開きます<br>
 			※乗換案内は目安であり到着時刻を保証するものではありません</p>
 			平日・土・日を含む最新の時刻表は
-			<a href="https://kensaku.osakametro.co.jp/timetable/bus/dia/stop/0240/60#01" target="_blank">こちら</a>
+			<a href="https://oc.bus-vision.jp/osakacitybus/view/diagram.html?stopCd=240&poleCd=60&opeYmd=-1&timetableDateDivCd=1&revYmd=20260112&lang=0" target="_blank">こちら</a>
 		</div>
 		<div class="note_content" id="fromnisikujyo_content">
 			平日・土・日を含む最新の時刻表は
-			<a href="https://kensaku.osakametro.co.jp/timetable/bus/dia/stop/0221/20#02" target="_blank">こちら</a>
+			<a href="https://oc.bus-vision.jp/osakacitybus/view/diagram.html?stopCd=221&poleCd=20&strLineList=59-2-1&lang=0&timetableDateDivCd=1&revYmd=20260112" target="_blank">こちら</a>
 		</div>
 		<div class="note_content" id="tomaisima_content">
 			※全て酉島正門発
@@ -229,21 +230,21 @@
 				[15,05,999,999,999,999,999,999], // 15
 				[16,12,139,999,999,999,999,999], // 16
 				[17,12,25,32,42,50,52,57], // 17
-				[18,07,12,23,129,42,54,999], // 18
+				[18,07,11,22,129,42,54,999], // 18
 				[19,109,119,129,39,159,999,999], // 19
 				[20,14,-45,999,999,999,999,999], // 20
 				[21,27,999,999,999,999,999,999], // 21
 				["#",999,999,999,999,999,999,999], // 隙間
 				[-1,"休日（土曜、日曜、祝日）","#b00000",999,999,999,999,999], // タイトル
-				[08,20,999,999,999,999,999,999],
+				[08,19,999,999,999,999,999,999],
 				["～","～","#eeeeee",999,999,999,999,999],
-				[13,38,999,999,999,999,999,999],
+				[13,37,999,999,999,999,999,999],
 				["～","～","#eeeeee",999,999,999,999,999],
-				[15,10,999,999,999,999,999,999],
+				[15,09,999,999,999,999,999,999],
 				["～","～","#eeeeee",999,999,999,999,999],
-				[18,03,999,999,999,999,999,999],
+				[18,02,999,999,999,999,999,999],
 				["～","～","#eeeeee",999,999,999,999,999],
-				[21,28,999,999,999,999,999,999] 
+				[21,27,999,999,999,999,999,999] 
 		];
 		const aryL2H =[
 				[-1,"平日のみ","#606060"], // タイトル
@@ -443,7 +444,7 @@
 				if(Math.abs(tmpAry[i][j]) < 999){
 					let mya = document.createElement('a');
 					if (tmpAry[i][j] < 0) {
-						if (tmpAry[i][j] == -45) {tmpstr = '<span style="font-size:50%;">(正門発)</span>'} else {tmpstr = "（以降2～8分間隔）"};
+						if (tmpAry[i][j] == -45) {tmpstr = '<span style="font-size:50%;">(舞洲経由)</span>'} else {tmpstr = "（以降2～8分間隔）"};
 		    			mya.innerHTML = -tmpAry[i][j] + tmpstr;
 						td.colSpan = tmpAry[0].length - j;
 						td.style.textAlign = "left";
